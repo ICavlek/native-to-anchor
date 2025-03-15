@@ -1,4 +1,4 @@
-use anchor_syn::idl::{EnumFields, Idl, IdlField, IdlType, IdlTypeDefinitionTy};
+use anchor_syn::idl::types::{EnumFields, Idl, IdlField, IdlType, IdlTypeDefinitionTy};
 
 use super::common::{
     camel_from_pascal, camel_from_snake, error, get_const_value, get_inside_item, get_item, warn,
@@ -198,6 +198,7 @@ pub fn get_idl_type_size(idl_type: &IdlType, idl: &Idl) -> Option<usize> {
 
                         return Some(total_size);
                     }
+                    _ => panic!("Unsupported type"),
                 }
             }
 
@@ -208,6 +209,7 @@ pub fn get_idl_type_size(idl_type: &IdlType, idl: &Idl) -> Option<usize> {
             None => return None,
         },
         IdlType::Bytes | IdlType::String | IdlType::Vec(_) | IdlType::Option(_) => return None,
+        _ => panic!("Unsupported types!"),
     };
 
     Some(size)
@@ -289,6 +291,7 @@ pub fn get_max_span(ty: &IdlType, arg_name: impl AsRef<str>, idl: &Idl) -> Strin
 
                         needed_span.push_str("}})()")
                     }
+                    _ => panic!("Unsupported type!"),
                 }
             }
 
@@ -432,6 +435,7 @@ fn get_buffer_type_internal(idl_type: &IdlType, idl: &Idl) -> String {
 
                         return enum_buffer_type;
                     }
+                    _ => panic!("Unsupported type"),
                 }
             }
 
@@ -459,6 +463,7 @@ fn get_buffer_type_internal(idl_type: &IdlType, idl: &Idl) -> String {
         IdlType::Vec(inside) => {
             return format!("B.vec({}), ", get_buffer_type_internal(inside, idl))
         }
+        _ => panic!("Unsupported type"),
     };
 
     format!("{buffer_type}(")

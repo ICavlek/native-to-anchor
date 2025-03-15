@@ -14,7 +14,10 @@ use std::{
     usize,
 };
 
-use anchor_syn::idl::{self, Idl, IdlType};
+use anchor_syn::idl::{
+    parse::file,
+    types::{Idl, IdlType},
+};
 use colored::Colorize;
 use log::info;
 use serde_json::to_string_pretty;
@@ -876,14 +879,13 @@ impl<'a> ProgramAndIdlGenerator<'a> {
     }
 
     fn parse_idl(&self) -> Idl {
-        idl::file::parse(
+        file::parse(
             &self.anchor_path,
             self.program_info.version.to_owned(),
             false,
             true,
             false,
         )
-        .unwrap()
         .unwrap()
     }
 

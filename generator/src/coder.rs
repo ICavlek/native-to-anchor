@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use anchor_syn::idl::{Idl, IdlTypeDefinitionTy};
+use anchor_syn::idl::types::{Idl, IdlTypeDefinitionTy};
 use colored::Colorize;
 use log::info;
 use serde_json::to_string_pretty;
